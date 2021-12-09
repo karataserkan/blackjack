@@ -12,6 +12,11 @@ class Game extends BaseModel
     public $dealer;
     public $delay;
 
+    /**
+     * @param Player
+     * @param Player
+     * @param int
+     */
     public function __construct(Player $player, Player $dealer, int $delay)
     {
         $this->player = $player;
@@ -20,6 +25,10 @@ class Game extends BaseModel
         $this->prepareCards();
     }
 
+    /**
+     * Prepare cards to start a game
+     * @return void
+     */
     private function prepareCards()
     {
         $this->deck = new Deck();
@@ -29,6 +38,10 @@ class Game extends BaseModel
         $this->deck->shuffle();
     }
 
+    /**
+     * Plays a game
+     * @return void
+     */
     public function play()
     {
         while (true) {
@@ -36,12 +49,20 @@ class Game extends BaseModel
         }
     }
 
+    /**
+     * Ends game
+     * @return void
+     */
     public function endGame()
     {
         echo "Game ended!\n";
         exit(0);
     }
 
+    /**
+     * Returns deck count
+     * @return int
+     */
     private function getDeckCount()
     {
         $config = $GLOBALS['config'];

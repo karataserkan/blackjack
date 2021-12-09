@@ -13,6 +13,9 @@ class Deck extends BaseModel implements \Countable, \Iterator
     private array $_cards = [];
     private int $currentIndex = 0;
 
+    /**
+     * @param bool|boolean
+     */
     public function __construct(bool $fill = false)
     {
         if ($fill) {
@@ -24,6 +27,11 @@ class Deck extends BaseModel implements \Countable, \Iterator
         }
     }
 
+    /**
+     * Picks a card from deck
+     * @param  int|null
+     * @return null|Card
+     */
     public function pick(int $index = null)
     {
         if (!is_null($index)) {
@@ -40,11 +48,19 @@ class Deck extends BaseModel implements \Countable, \Iterator
         return $current;
     }
 
+    /**
+     * Adds card to deck
+     * @param Card
+     */
     public function addCard(Card $card)
     {
         $this->_cards[] = $card;
     }
 
+    /**
+     * Adds deck cards to deck
+     * @param Deck
+     */
     public function addDeck(Deck $deck)
     {
         foreach ($deck as $key => $card) {
@@ -52,36 +68,58 @@ class Deck extends BaseModel implements \Countable, \Iterator
         }
     }
 
+    /**
+     * @return int
+     */
     public function count(): int
     {
         return count($this->_cards);
     }
 
+    /**
+     * @return Card
+     */
     public function current(): Card
     {
         return $this->_cards[$this->currentIndex];
     }
 
+    /**
+     * @return int
+     */
     public function key(): int
     {
         return $this->currentIndex;
     }
 
+    /**
+     * @return void
+     */
     public function next()
     {
         $this->currentIndex++;
     }
 
+    /**
+     * @return void
+     */
     public function rewind()
     {
         $this->currentIndex = 0;
     }
 
+    /**
+     * @return bool
+     */
     public function valid(): bool
     {
         return isset($this->_cards[$this->currentIndex]);
     }
 
+    /**
+     * Shuffles cards
+     * @return void
+     */
     public function shuffle()
     {
         shuffle($this->_cards);

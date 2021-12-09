@@ -6,10 +6,16 @@ namespace app\helpers;
  */
 class Console
 {
+    /**
+     * @param  array accepted   Expected values
+     * @param  int duration Duration, for countdown
+     * @param  string message   Message to show
+     * @return int
+     */
     public static function readFromCli($accepted, $duration, $message)
     {
-        $starttime=time();
-        $resSTDIN=fopen("php://stdin", "r");
+        $starttime = time();
+        $resSTDIN  = fopen("php://stdin", "r");
         readline_callback_handler_install('', function () {
         });
         while (1) {
@@ -20,8 +26,8 @@ class Console
                 }
             } else {
                 echo "\r";
-                echo($duration - (time()-$starttime)) . " " . $message;
-                if ((time()-$starttime) > $duration) {
+                echo($duration - (time() - $starttime)) . " " . $message;
+                if ((time() - $starttime) > $duration) {
                     return -1;
                 }
                 usleep(10);
@@ -29,10 +35,15 @@ class Console
         }
     }
 
+    /**
+     * @param  mixed
+     * @param  mixed
+     * @return boolean
+     */
     public static function nonBlockRead($source, &$data)
     {
-        $read = array($source);
-        $write = array();
+        $read   = array($source);
+        $write  = array();
         $except = array();
         $result = stream_select($read, $write, $except, 0);
         if ($result === false) {

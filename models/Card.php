@@ -11,6 +11,11 @@ class Card extends BaseModel
     public $value;
     private bool $_open;
 
+    /**
+     * @param string
+     * @param string
+     * @param bool|null
+     */
     public function __construct(string $type, string $value, bool $open = null)
     {
         $this->type = $type;
@@ -21,11 +26,18 @@ class Card extends BaseModel
         $this->_open = $open;
     }
 
+    /**
+     * @return string
+     */
     public function getType()
     {
         return $this->type;
     }
 
+    /**
+     * Returns card value
+     * @return int
+     */
     public function getValue()
     {
         if (in_array($this->value, ['Jack', 'Queen', 'King'])) {
@@ -37,16 +49,27 @@ class Card extends BaseModel
         return (int)$this->value;
     }
 
+    /**
+     * Returns whether card is Ace or not
+     * @return boolean
+     */
     public function isAce()
     {
         return $this->value == 'Ace';
     }
 
+    /**
+     * Returns whether card is open or not
+     * @return boolean
+     */
     public function isOpen()
     {
         return $this->_open == true;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $notation = '?';
@@ -69,11 +92,19 @@ class Card extends BaseModel
         return $this->type.'-'.$this->value;
     }
 
+    /**
+     * Opens card
+     * @return void
+     */
     public function open()
     {
         $this->_open = true;
     }
 
+    /**
+     * Closes card
+     * @return void
+     */
     public function close()
     {
         $this->_open = false;

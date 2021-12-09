@@ -12,8 +12,8 @@ use app\models\Player;
 class GameController extends BaseController
 {
     /**
-     * Play game.
-     *
+     * Plays a game
+     * @return void
      */
     public function play()
     {
