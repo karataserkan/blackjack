@@ -6,41 +6,24 @@ namespace app\tests;
 
 use PHPUnit\Framework\TestCase;
 use app\models\Game;
-use app\models\Card;
 use app\models\Player;
+use app\models\Turn;
 
 final class GameTest extends TestCase
 {
-    public function testPlayerName()
-    {
-        $player = new Player('Dealer');
-        $this->assertEquals('Dealer', $player->getName());
-    }
+    protected Game $game;
 
-    public function testCardStatus()
-    {
-        $card = new Card('Heart', 'Ace');
-        $this->assertFalse($card->isOpen());
-        $card->open();
-        $this->assertTrue($card->isOpen());
-    }
-
-    public function testCardValue()
-    {
-        $card = new Card('Heart', '3');
-        $this->assertEquals(3, $card->getValue());
-    }
-
-    public function testPlayerHandScore()
+    protected function setUp()
     {
         $player = new Player();
-        $player->addCard(new Card('Heart', '3'));
-        $this->assertEquals(3, $player->getHandScore());
-        $player->addCard(new Card('Heart', '7'));
-        $this->assertEquals(10, $player->getHandScore());
-        $player->addCard(new Card('Heart', 'King'));
-        $this->assertEquals(20, $player->getHandScore());
-        $player->addCard(new Card('Heart', 'Ace'));
-        $this->assertEquals(21, $player->getHandScore());
+        $dealer = new Player('Dealer');
+        $this->game = new Game($player, $dealer, 1);
     }
+
+    public function testDeckCount()
+    {
+        $this->assertEquals(312, $this->game->deck->count());
+    }
+
+    //Tests will continue here...
 }
