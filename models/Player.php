@@ -47,6 +47,11 @@ class Player extends BaseModel
         return $output;
     }
 
+    public function printHand()
+    {
+        echo $this->getName() . " hand:\n". $this->getHand() ."\n";
+    }
+
     public function addCard(Card $card)
     {
         $this->_cards[] = $card;

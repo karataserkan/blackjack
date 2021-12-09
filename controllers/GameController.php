@@ -17,12 +17,10 @@ class GameController extends BaseController
      */
     public function play()
     {
-        /*$playerName = readline('Please enter player name:');
+        $playerName = readline('Please enter player name:');
         do {
             $delay = readline('Please enter delay:');
-        } while ($delay == 0);*/
-        $playerName = 'asd';
-        $delay =99;
+        } while ($delay == 0);
         $player = new Player($playerName);
         $dealer = new Player('Dealer');
         $game = new Game($player, $dealer, $delay);

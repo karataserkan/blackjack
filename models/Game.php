@@ -7,7 +7,7 @@ namespace app\models;
  */
 class Game extends BaseModel
 {
-    public $cards;
+    public Deck $deck;
     public $player;
     public $dealer;
     public $delay;
@@ -22,10 +22,11 @@ class Game extends BaseModel
 
     private function prepareCards()
     {
-        $this->cards = [];
+        $this->deck = new Deck();
         for ($i=0; $i < $this->getDeckCount(); $i++) {
-            $this->cards = array_merge($this->cards, Card::getRandomDeck());
+            $this->deck->addDeck(new Deck(true));
         }
+        $this->deck->shuffle();
     }
 
     public function play()

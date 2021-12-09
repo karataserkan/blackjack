@@ -7,9 +7,6 @@ namespace app\models;
  */
 class Card extends BaseModel
 {
-    const TYPES = ['Heart', 'Spade', 'Diamond', 'Club'];
-    const VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace'];
-
     public $type;
     public $value;
     private bool $_open;
@@ -43,18 +40,6 @@ class Card extends BaseModel
     public function isAce()
     {
         return $this->value == 'Ace';
-    }
-
-    public static function getRandomDeck()
-    {
-        $cards = [];
-        foreach (static::TYPES as $key => $type) {
-            foreach (static::VALUES as $key => $value) {
-                $cards[] = new static($type, $value);
-            }
-        }
-        shuffle($cards);
-        return $cards;
     }
 
     public function isOpen()

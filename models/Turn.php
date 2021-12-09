@@ -20,21 +20,24 @@ class Turn extends BaseModel
     private function play()
     {
         echo "--------------- New Turn Starts ---------------------------------\n";
-        $this->game->dealer->addCard($this->getTopCard(false));
         $this->game->player->addCard($this->getTopCard());
         $this->game->dealer->addCard($this->getTopCard());
         $this->game->player->addCard($this->getTopCard());
+        $this->game->dealer->addCard($this->getTopCard(false));
 
-        echo $this->game->dealer->getName() . " hand:\n". $this->game->dealer->getHand() ."\n";
-        echo $this->game->player->getName() . " hand:\n". $this->game->player->getHand() ."\n";
+        $this->game->dealer->printHand();
+        $this->game->player->printHand();
         echo "---------------------\n";
         if ($this->check()) {
             return $this->end();
         }
 
-        do {
+        while (true) {
             $playerAction = (int)Console::readFromCli(['1', '2'], $this->game->delay, 'Please enter 1 for Hit or 2 for Stay:');
-            if ($playerAction === 1) {
+            if ($playerAction == -1) {
+                echo "\nGame ended!\n";
+                die();
+            } elseif ($playerAction == 1) {
                 $this->game->player->addCard($this->getTopCard());
                 if ($this->check()) {
                     return $this->end();
@@ -43,14 +46,17 @@ class Turn extends BaseModel
                     $this->game->dealer->addCard($this->getTopCard());
                 }
 
-                echo $this->game->dealer->getName() . " hand:\n". $this->game->dealer->getHand() ."\n";
-                echo $this->game->player->getName() . " hand:\n". $this->game->player->getHand() ."\n";
+                $this->game->dealer->printHand();
+                $this->game->player->printHand();
                 echo "---------------------\n";
                 if ($this->check()) {
                     return $this->end();
                 }
+            } elseif ($playerAction == 2) {
+                break;
             }
-        } while ($playerAction != '2');
+        }
+
         $this->end();
     }
 
@@ -58,15 +64,16 @@ class Turn extends BaseModel
     {
         $playerScore = $this->game->player->getHandScore();
         while ($this->game->dealer->getHandScore() < 17) {
-            if (!$this->check()) {
-                $this->game->dealer->addCard($this->getTopCard());
+            if ($this->check()) {
+                break;
             }
+            $this->game->dealer->addCard($this->getTopCard());
         }
         $dealerScore = $this->game->dealer->getHandScore();
 
         $this->game->dealer->openCards();
-        echo $this->game->dealer->getName() . " hand:\n". $this->game->dealer->getHand() ."\n";
-        echo $this->game->player->getName() . " hand:\n". $this->game->player->getHand() ."\n";
+        $this->game->dealer->printHand();
+        $this->game->player->printHand();
         if ($playerScore > 21) {
             $winner = $this->game->dealer;
         } elseif ($dealerScore > 21) {
@@ -86,11 +93,12 @@ class Turn extends BaseModel
         }
 
         echo "--------------- Turn Ended ---------------------------------\n\n";
+        return;
     }
 
     protected function getTopCard($open = true)
     {
-        $card = array_shift($this->game->cards);
+        $card = $this->game->deck->pick();
         if (is_null($card)) {
             echo "Game ended!\n";
             die();

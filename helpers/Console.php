@@ -15,15 +15,16 @@ class Console
         while (1) {
             if (self::nonBlockRead(STDIN, $x)) {
                 if (in_array($x, $accepted)) {
+                    fclose($resSTDIN);
                     return $x;
                 }
             } else {
                 echo "\r";
                 echo($duration - (time()-$starttime)) . " " . $message;
                 if ((time()-$starttime) > $duration) {
-                    break;
+                    return -1;
                 }
-                usleep(50);
+                usleep(10);
             }
         }
     }
