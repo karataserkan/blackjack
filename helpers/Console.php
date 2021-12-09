@@ -23,7 +23,7 @@ class Console
                 if ((time()-$starttime) > $duration) {
                     break;
                 }
-                usleep(1);
+                usleep(50);
             }
         }
     }

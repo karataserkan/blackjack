@@ -7,31 +7,31 @@ namespace app\models;
  */
 class Player extends BaseModel
 {
-    private $name;
+    private $_name;
 
-    private $cards;
-    private $score;
+    private $_cards;
+    private $_score;
 
     public function __construct(string $name = 'Player')
     {
-        $this->name = $name;
-        $this->score = 0;
+        $this->_name = $name;
+        $this->_score = 0;
     }
 
     public function getName()
     {
-        return $this->name;
+        return $this->_name;
     }
 
     public function getScore()
     {
-        return $this->score;
+        return $this->_score;
     }
 
     public function getHand()
     {
         $output = '';
-        foreach ($this->cards as $key => $card) {
+        foreach ($this->_cards as $key => $card) {
             $outputLines = [];
             if ($output) {
                 $outputLines = explode("\n", $output);
@@ -49,14 +49,14 @@ class Player extends BaseModel
 
     public function addCard(Card $card)
     {
-        $this->cards[] = $card;
+        $this->_cards[] = $card;
     }
 
     public function getHandScore()
     {
         $score = 0;
         $hasAce = false;
-        foreach ($this->cards as $card) {
+        foreach ($this->_cards as $card) {
             $score += $card->getValue();
             $hasAce = $card->isAce();
         }
@@ -69,12 +69,23 @@ class Player extends BaseModel
 
     public function win()
     {
-        $this->score++;
+        $this->_score++;
     }
 
     public function clearHand()
     {
-        $this->score = 0;
-        $this->cards = [];
+        $this->_cards = [];
+    }
+
+    public function getCards()
+    {
+        return $this->_cards;
+    }
+
+    public function openCards()
+    {
+        foreach ($this->_cards as $card) {
+            $card->open();
+        }
     }
 }

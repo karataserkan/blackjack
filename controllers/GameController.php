@@ -22,7 +22,7 @@ class GameController extends BaseController
             $delay = readline('Please enter delay:');
         } while ($delay == 0);*/
         $playerName = 'asd';
-        $delay =100;
+        $delay =99;
         $player = new Player($playerName);
         $dealer = new Player('Dealer');
         $game = new Game($player, $dealer, $delay);
