@@ -8,7 +8,7 @@ class Psr4AutoloaderClassTest extends TestCase
 {
     protected $loader;
 
-    protected function setUp()
+    protected function setUp():void
     {
         $this->loader = new MockPsr4AutoloaderClass();
 

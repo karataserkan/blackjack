@@ -13,7 +13,7 @@ final class GameTest extends TestCase
 {
     protected Game $game;
 
-    protected function setUp()
+    protected function setUp():void
     {
         $player = new Player();
         $dealer = new Player('Dealer');
